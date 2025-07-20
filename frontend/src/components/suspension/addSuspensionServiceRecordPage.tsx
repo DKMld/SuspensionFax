@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import toast from 'react-hot-toast';
 
 const AddServiceRecord: React.FC = () => {
   const { id } = useParams();
@@ -17,7 +18,8 @@ const AddServiceRecord: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await fetch(`${API_URL}/suspension/${id}/add-service`, {
+
+    let response = await fetch(`${API_URL}/suspension/${id}/add-service`, {
             method:'POST',
             headers:{
                 'Content-Type': 'application/json',
@@ -27,13 +29,24 @@ const AddServiceRecord: React.FC = () => {
                 JSON.stringify({service_date, serviced_by, type_of_service})
         })
 
+        // toast.promise(response, {
+        //     loading: 'Saving...',
+        //     // success: <b>Suspension history record saved!</b>,
+        //     // error: <b>Could not save suspension history record.</b>,
+        // }
+        // );
+        //
+        // const promise = await response
+
         if (response.ok){
             navigate(`/suspension/${id}`)
-        //     TODO Msg for succsessful added suspension service record
+            toast.success(`Successfully added a service record!`)
         }else {
-        //     TODO Alert that there is an error adding the service history !
+            toast.error('Creating service record failed, please try again.')
         }
-  };
+    };
+
+
 
   return (
     <div className="min-h-screen bg-[#1a1a1a] text-white px-6 py-12 flex justify-center">

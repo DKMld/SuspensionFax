@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import {useNavigate} from "react-router-dom";
+import toast from 'react-hot-toast';
 
 const AuthPage: React.FC = () => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+      const [isLogin, setIsLogin] = useState(true);
+      const [username, setUsername] = useState('')
+      const [password, setPassword] = useState('')
 
-  const navigate = useNavigate()
+      const navigate = useNavigate()
 
-  const API_URL = 'http://127.0.0.1:8000/api'
+      const API_URL = 'http://127.0.0.1:8000/api'
 
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -25,23 +26,24 @@ const AuthPage: React.FC = () => {
         const data = await response.json()
 
         if (response.ok){
-            setMessage(`Logged In ${username}`)
+            toast.success(`Logged In Successfully as ${username}!`)
+
             localStorage.setItem('token', data.token);
             localStorage.setItem('username', data.username);
+
             navigate('/')
-            // TODO add pop up saying logged in succsessfuly :)
+
         }else {
-            // TODO add pop up saying that there is a problem with auth
+            toast.error('Login failed, please try again!')
         }
   };
-
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     const url = `${API_URL}/api/register`;
 
     console.log("Final API URL:", url); // Log the final URL to debug
-    const response = await fetch(`${API_URL}/api/register`, {
+    const response = await fetch(`${API_URL}/register`, {
             method:'POST',
             headers:{
                 'Content-Type': 'application/json'
@@ -51,19 +53,20 @@ const AuthPage: React.FC = () => {
         })
 
         if (response.ok){
+            toast.success('Registered in Successfully!')
             setIsLogin(true)
-        //     TODO add pop up saying registered succsessfuly :)
         }else {
-        //     TODO add pop up that there is a problem with registration
+            toast.error('Failed to create and account!')
         }
   };
-
 
   // TODO Add Website logo above auth form ! White -> Orange colour theme
 
   return (
+
     <div className="min-h-screen flex items-center justify-center bg-[#1a1a1a] px-4">
       <div className="relative w-full max-w-xl bg-[#141414] text-white rounded-xl overflow-hidden shadow-xl">
+
         {/* Header Toggle */}
         <div className="flex justify-between text-center">
           <button

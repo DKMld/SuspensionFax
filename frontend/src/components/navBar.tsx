@@ -1,22 +1,24 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
+import toast, { Toaster } from 'react-hot-toast';
+import {useNavigate} from "react-router-dom";
+
 
 const Navbar: React.FC = () => {
-  const [openMenu, setOpenMenu] = useState<"shop" | "community" | "support" | null>(null);
+  const [openMenu, setOpenMenu] = useState<"shop" | "community" | "support" | "UserProfile" | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('token'))
 
+  const token = localStorage.getItem('token')
   const username = localStorage.getItem('username')
 
-  // Close dropdowns when clicking outside
+  const navigate = useNavigate()
+
+  const API_URL = 'http://127.0.0.1:8000/api'
+
   useEffect(() => {
-    // We are making a quick check if the user is logged in or not !
-    const token = localStorage.getItem("token")
-    setLoggedIn(!!token)
-    // We are making a quick check if the user is logged in or not !
-
-
+    setLoggedIn(!!localStorage.getItem('token'))
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setOpenMenu(null);
@@ -24,25 +26,64 @@ const Navbar: React.FC = () => {
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  });
+
+  const handleLogout = async () => {
+            if (token) {
+                const response = await fetch(`${API_URL}/logout`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${token}`,
+                    },
+                });
+
+                if (response.ok) {
+                    toast.success(`Logged out successfully, hope to see you soon ${username}`)
+
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('username')
+
+                    navigate('/');
+
+
+                } else {
+                  toast.error('Logout failed, please try again!')
+                }
+            }
+        };
+
 
   const dropdown = (
-    items: { to: string; text: string }[],
+    items: { to?: string; text: string, onClick?: ()=>void }[],
     key: string
-  ) => (
-    <div className="absolute top-full left-0 mt-1 bg-white border shadow-md rounded-md w-48 animate-fade-in z-20">
-      {items.map((item) => (
+    ) => (
+      <div className="absolute top-full left-0 mt-1 bg-white border shadow-md rounded-md w-48 animate-fade-in z-20">
+    {items.map((item, index) =>
+      item.to ? (
         <Link
-          key={item.to}
+          key={`${key}-${index}`}
           to={item.to}
           className="block px-4 py-2 hover:bg-gray-100 text-sm"
           onClick={() => setOpenMenu(null)}
         >
           {item.text}
         </Link>
-      ))}
-    </div>
-  );
+      ) : (
+        <button
+          key={`${key}-${index}`}
+          onClick={() => {
+            setOpenMenu(null);
+            item.onClick?.();
+          }}
+          className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
+        >
+          {item.text}
+        </button>
+      )
+    )}
+  </div>
+    );
 
   return (
     <nav className="bg-white border-b sticky top-0 z-50 " ref={menuRef}>
@@ -113,22 +154,50 @@ const Navbar: React.FC = () => {
 
         {/* Right Icons */}
         <div className="flex items-center space-x-4 w-[20%] flex justify-center">
-          {/*<Link to="/search" className="text-gray-600 hover:text-orange-600">*/}
-          {/*  <FaSearch />*/}
-          {/*</Link>*/}
 
           {loggedIn ? (
+              <>
                   <Link to="/profile" className="flex items-center space-x-1 text-gray-600 hover:text-orange-600 text-sm">
                     <FaUser />
                     <span className="hidden sm:inline">{username}</span>
-                  </Link>)
+                  </Link>
+
+                  <div className="relative">
+                  <button
+                    onClick={() => setOpenMenu(openMenu === "UserProfile" ? null : "UserProfile")}
+                    className="hover:text-orange-600 transition text-sm font-medium"
+                  >
+                    <div className="flex items-center">
+                    Profile
+                      <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true"
+                           className="-mr-1 size-5 text-gray-400">
+                        <path
+                            d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                            clip-rule="evenodd" fill-rule="evenodd"/>
+                      </svg>
+                    </div>
+
+                  </button>
+
+                  {openMenu === "UserProfile" &&
+                    dropdown(
+                      [
+                        { to: "/profile", text: "Profile" },
+                        { text: "Logout", onClick: handleLogout },
+                      ],
+                      "UserProfile"
+                    )}
+                </div>
+                </>
+            )
+
               :(
                   <Link to="/auth" className="flex items-center space-x-1 text-gray-600 hover:text-orange-600 text-sm">
                     <FaUser />
                     <span className="hidden sm:inline">Login</span>
                   </Link>
               )}
-
+          <div><Toaster/></div>
 
         </div>
       </div>

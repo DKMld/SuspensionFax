@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {useNavigate} from "react-router-dom";
+import toast from 'react-hot-toast';
 
 const RegisterSuspension: React.FC = () => {
   const [brand, setBrand] = useState("");
@@ -26,10 +27,10 @@ const RegisterSuspension: React.FC = () => {
         })
 
         if (response.ok) {
-        //   TODO set a message alerting that the suspension has been created
+          toast.success(`Product with serial number: ${serial_number} successfully added!`)
           navigate('/profile')
         }else {
-        //   TODO set a message alerting that there is a problem with registering the suspension
+          toast.error('There was a problem with registering this product, please try again!')
         }
     };
 

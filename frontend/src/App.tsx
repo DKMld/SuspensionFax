@@ -10,6 +10,7 @@ import AddServiceRecord from "./components/suspension/addSuspensionServiceRecord
 
 
 const App: React.FC = () => {
+
   return (
     <Router>
       <Navbar />
