@@ -1,7 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
 
+
 const HomePage: React.FC = () => {
+  const brands = ["Fox", "RockShox", "Öhlins", "Marzocchi", "Manitou", "SR Suntour", "Cane Creek", "DVO"];
+
+  const [selectedBrand, setSelectedBrand] = useState('')
+
+
   return (
     <main className="bg-[#1a1a1a] text-white min-h-screen">
       {/* Hero */}
@@ -35,9 +41,30 @@ const HomePage: React.FC = () => {
           <h3 className="text-2xl font-bold mb-10 tracking-wide">
             SEARCH FOR PRODUCT INFORMATION
           </h3>
+<form name="serialform" id="serialform"
+                className="inline-grid sm:flex-row items-center gap-4 justify-center mb-8">
+          <div className="w-full">
+          <label htmlFor="brand" className="block mb-2 text-sm font-medium text-gray-200">
+            Select Suspension Brand
+          </label>
+          <select
+            id="brand"
+            name="brand"
+            value={selectedBrand}
+            required={true}
+            onChange={(event) => setSelectedBrand(event.target.value)}
+            className="w-full bg-[#2a2a2a] border border-gray-600 text-white text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block p-2.5"
+          >
+            <option value="" disabled>Select a brand</option>
+            {brands.map((brand) => (
+              <option key={brand} value={brand}>
+                {brand}
+              </option>
+            ))}
+          </select>
+        </div>
 
-          <form name="serialform" id="serialform"
-                className="flex flex-col sm:flex-row items-center gap-4 justify-center mb-8">
+
             <input
                 type="text"
                 id="serial"
@@ -45,24 +72,15 @@ const HomePage: React.FC = () => {
                 placeholder="ENTER SERIAL NUMBER"
                 className="form-control w-full sm:w-96 px-4 py-2 bg-[#2a2a2a] text-white placeholder-gray-400 border-none rounded focus:ring-2 focus:ring-[#f47920] focus:outline-none"
             />
-            <button
-                type="submit"
-                id="serialbutton"
-                className="btn bg-[#f47920] hover:bg-orange-500 text-white font-semibold px-6 py-2 rounded transition"
-            >
-              SEARCH
-            </button>
-          </form>
 
-          <span className="ortext block text-gray-400 font-semibold text-sm mb-8">OR</span>
+          <span className="ortext block text-gray-400 font-semibold text-sm ">OR</span>
 
-          <form name="codeform" id="codeform" className="flex flex-col sm:flex-row items-center gap-4 justify-center">
             <input
                 type="text"
                 id="code"
                 name="code"
                 placeholder="ENTER 4 DIGIT CODE"
-                className="form-control w-full sm:w-60 px-4 py-2 bg-[#2a2a2a] text-white placeholder-gray-400 border-none rounded focus:ring-2 focus:ring-[#f47920] focus:outline-none"
+                className="form-control w-full sm:w-96 px-4 py-2 bg-[#2a2a2a] text-white placeholder-gray-400 border-none rounded focus:ring-2 focus:ring-[#f47920] focus:outline-none"
             />
             <button
                 type="submit"

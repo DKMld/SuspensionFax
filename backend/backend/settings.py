@@ -162,5 +162,8 @@ CORS_ALLOWED_ORIGINS = [
 # SECURE_HSTS_PRELOAD = True  # Preload HSTS for browsers
 
 
-# TODO LOGOUT BUTTON
-# TODO DROP DOWN MENU NEXT TO USERNAME IN NAV BAR : Dashboard, Logout
+# TODO To imolement the logic for the search in the home page
+# TODO To implement a search bar where user can search suspension by serial_number and see existing records if any
+# TODO To create a page where the results of the search will be shown
+# TODO To make an email verification when creating an account
+# TODO To create an delete button on suspension and suspension'history records

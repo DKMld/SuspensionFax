@@ -87,9 +87,9 @@ const SuspensionPage: React.FC = () => {
               >
                 <div className="flex justify-between items-center mb-1">
                   <p className="text-lg font-medium">{record.service_date}</p>
-                  <span className="text-sm text-gray-400">
-                    {record.serviced_by}
+                  <span className="text-sm text-gray-400">Serviced by: {record.serviced_by}
                   </span>
+
                 </div>
                 <p className="text-gray-300 text-sm">{record.type_of_service}</p>
               </li>
