@@ -57,3 +57,28 @@ class SuspensionHistory(APIView):
 
     def delete(self, request, *args, **kwargs):
         pass
+
+
+class SuspensionSearch(APIView):
+    def post(self):
+        pass
+
+    def get(self, request, *args, **kwargs):
+        print(kwargs)
+        product = UserRegisteredSuspension.objects.filter(
+                brand=kwargs.get('brand'),
+                serial_number=kwargs.get('serial_number')
+            ).order_by("register_date")
+
+        product_history = SuspensionServiceHistory.objects.filter(suspension__in=product)
+
+        product_info = RegisterSuspensionSerializer(product, many=True)
+        product_history = SuspensionHistorySerializer(product_history, many=True)
+        print(product_history)
+        print(product_info)
+        data = {
+            'suspension_info': product_info.data,
+            'suspension_history': product_history.data
+        }
+
+        return Response(data, status.HTTP_200_OK)

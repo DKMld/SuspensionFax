@@ -99,7 +99,7 @@ const UserProfile: React.FC = () => {
                       </Link>
                                               <div className="inline-flex items-center rounded-md shadow-sm z-50">
                                                       <button
-                                                          className="text-slate-800 hover:text-blue-600 text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-l-lg font-medium px-4 py-2 inline-flex space-x-1 items-center">
+                                                          className=" text-slate-800 hover:text-blue-600 text-sm bg-gray-300 hover:bg-slate-100 border border-slate-200 rounded-l-lg font-medium px-4 py-2 inline-flex space-x-1 items-center">
                                                           <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                                                      stroke="currentColor" className="w-6 h-6">
                                                                   <path stroke-linecap="round" stroke-linejoin="round"
@@ -112,7 +112,7 @@ const UserProfile: React.FC = () => {
                                                         <Link to={`/suspension/${susp.serial_number}`}>
 
                                                         <button
-                                                      className="text-slate-800 hover:text-blue-600 text-sm bg-white hover:bg-slate-100 border-y border-slate-200 font-medium px-4 py-2 inline-flex space-x-1 items-center">
+                                                      className="bg-gray-300 text-slate-800 hover:text-blue-600 text-sm  hover:bg-slate-100 border-y border-slate-200 font-medium px-4 py-2 inline-flex space-x-1 items-center">
                                                           <span>
                                                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                                                    stroke="currentColor" className="w-6 h-6">
@@ -128,7 +128,7 @@ const UserProfile: React.FC = () => {
 
                                                         <button
 
-                                                            className="text-slate-800 hover:text-blue-600 text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-r-lg font-medium px-4 py-2 inline-flex space-x-1 items-center">
+                                                            className="text-slate-800 hover:text-blue-600 text-sm bg-gray-300 hover:bg-slate-100 border border-slate-200 rounded-r-lg font-medium px-4 py-2 inline-flex space-x-1 items-center">
                                                             <span>
                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                                                      stroke="currentColor" className="w-6 h-6">

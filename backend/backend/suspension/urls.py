@@ -8,4 +8,6 @@ urlpatterns = [
          name='add suspension service record'),
     path('api/suspension/<str:serial_number>', suspension_views.SuspensionHistory.as_view(),
          name='get suspension service record'),
+    path('api/search/<str:brand>/<str:serial_number>', suspension_views.SuspensionSearch.as_view(),
+         name='get suspension search'),
 ]

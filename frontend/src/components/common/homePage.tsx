@@ -1,11 +1,29 @@
 import React, {useState} from "react";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import toast from 'react-hot-toast';
 
 
 const HomePage: React.FC = () => {
+  const navigate = useNavigate()
+
   const brands = ["Fox", "RockShox", "Öhlins", "Marzocchi", "Manitou", "SR Suntour", "Cane Creek", "DVO"];
+  const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('token'))
+
 
   const [selectedBrand, setSelectedBrand] = useState('')
+  const [serialNumber, setSerialNumber] = useState('')
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (serialNumber && selectedBrand){
+        navigate(`/search/${selectedBrand}/${serialNumber}`);
+    }
+    else {
+        toast.error('Please fill both the brand and serial number fields.')
+    }
+
+  };
 
 
   return (
@@ -21,7 +39,7 @@ const HomePage: React.FC = () => {
         </p>
         <div className="mt-8 space-x-4">
           <Link
-            to="/register"
+            to="/suspension/register"
             className="bg-[#f47920] hover:bg-orange-500 text-white px-6 py-3 rounded-md font-semibold transition"
           >
             Register Suspension
@@ -41,7 +59,8 @@ const HomePage: React.FC = () => {
           <h3 className="text-2xl font-bold mb-10 tracking-wide">
             SEARCH FOR PRODUCT INFORMATION
           </h3>
-<form name="serialform" id="serialform"
+        <form name="serialform" id="serialform"
+              onSubmit={handleSubmit}
                 className="inline-grid sm:flex-row items-center gap-4 justify-center mb-8">
           <div className="w-full">
           <label htmlFor="brand" className="block mb-2 text-sm font-medium text-gray-200">
@@ -70,18 +89,19 @@ const HomePage: React.FC = () => {
                 id="serial"
                 name="serial"
                 placeholder="ENTER SERIAL NUMBER"
+                onChange={(event) => setSerialNumber(event.target.value)}
                 className="form-control w-full sm:w-96 px-4 py-2 bg-[#2a2a2a] text-white placeholder-gray-400 border-none rounded focus:ring-2 focus:ring-[#f47920] focus:outline-none"
             />
 
-          <span className="ortext block text-gray-400 font-semibold text-sm ">OR</span>
+          {/*<span className="ortext block text-gray-400 font-semibold text-sm ">OR</span>*/}
 
-            <input
-                type="text"
-                id="code"
-                name="code"
-                placeholder="ENTER 4 DIGIT CODE"
-                className="form-control w-full sm:w-96 px-4 py-2 bg-[#2a2a2a] text-white placeholder-gray-400 border-none rounded focus:ring-2 focus:ring-[#f47920] focus:outline-none"
-            />
+          {/*  <input*/}
+          {/*      type="text"*/}
+          {/*      id="code"*/}
+          {/*      name="code"*/}
+          {/*      placeholder="ENTER 4 DIGIT CODE"*/}
+          {/*      className="form-control w-full sm:w-96 px-4 py-2 bg-[#2a2a2a] text-white placeholder-gray-400 border-none rounded focus:ring-2 focus:ring-[#f47920] focus:outline-none"*/}
+          {/*  />*/}
             <button
                 type="submit"
                 id="codebutton"
@@ -119,12 +139,20 @@ const HomePage: React.FC = () => {
           Keep your suspension’s service history transparent and transferable.
         </p>
         <div className="mt-6">
+            {loggedIn ? (
           <Link
-            to="/dashboard"
+            to="/profile"
             className="bg-[#f47920] hover:bg-orange-500 text-white px-8 py-3 rounded-md font-semibold transition"
           >
             Go to Dashboard
           </Link>
+            ):(
+            <Link
+                to="/auth"
+                className="bg-[#f47920] hover:bg-orange-500 text-white px-8 py-3 rounded-md font-semibold transition">
+                Go to Dashboard
+            </Link>
+            )}
         </div>
       </section>
     </main>

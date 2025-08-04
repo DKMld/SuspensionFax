@@ -7,7 +7,7 @@ import UserProfile from './components/profile/UserProfile.tsx';
 import RegisterSuspension from './components/suspension/RegisterSuspensionPage.tsx';
 import SuspensionPage from "./components/suspension/SuspensionPage.tsx";
 import AddServiceRecord from "./components/suspension/addSuspensionServiceRecordPage.tsx";
-
+import SuspensionSearchResults from "./components/suspension/suspensionSearchResult"
 
 const App: React.FC = () => {
 
@@ -22,7 +22,7 @@ const App: React.FC = () => {
                 <Route path="/suspension/register" element={<RegisterSuspension />} />
                 <Route path="/suspension/:id" element={<SuspensionPage />} />
                 <Route path="/suspension/:id/add-service" element={<AddServiceRecord />} />
-
+                <Route path="/search/:brand/:serial" element={<SuspensionSearchResults/>}/>
             </Routes>
     </Router>
   );
